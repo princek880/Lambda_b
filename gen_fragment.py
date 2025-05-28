@@ -1,10 +1,3 @@
-# Found 43 output events for 15000 input events.
-# Filter efficiency = 0.002867
-# Timing = 0.377745 sec/event
-# Event size = 501.9 kB/event
-
-
-
 import FWCore.ParameterSet.Config as cms
 from Configuration.Generator.Pythia8CommonSettings_cfi import *
 from Configuration.Generator.MCTunesRun3ECM13p6TeV.PythiaCP5Settings_cfi import *
@@ -116,13 +109,7 @@ generator = ExternalGeneratorFilter(_generator)
 #
 lbfilter = cms.EDFilter("PythiaFilter", ParticleID = cms.untracked.int32(5122))
 
-# psifilter = cms.EDFilter("PythiaFilter",
-#         MotherID        = cms.untracked.int32(5122),
-#         ParticleID      = cms.untracked.int32(443)
-# #         MinPt           = cms.untracked.double(4.95),
-# #         MinEta          = cms.untracked.double(-3.0),
-# #         MaxEta          = cms.untracked.double( 3.0)
-# )
+
 psifilter = cms.EDFilter("PythiaDauVFilter",
         verbose         = cms.untracked.int32(0),
         NumberDaughters = cms.untracked.int32(2),
@@ -133,16 +120,7 @@ psifilter = cms.EDFilter("PythiaDauVFilter",
         MinEta          = cms.untracked.vdouble(-2.5, -2.5),
         MaxEta          = cms.untracked.vdouble(2.5, 2.5)
 )
-# lb0filter = cms.EDFilter("PythiaDauVFilter",
-#         verbose         = cms.untracked.int32(0),
-#         NumberDaughters = cms.untracked.int32(2),
-#         MotherID        = cms.untracked.int32(5122),
-#         ParticleID      = cms.untracked.int32(3122),
-#         DaughterIDs     = cms.untracked.vint32(2212, -211),
-#         MinPt           = cms.untracked.vdouble(0.2, 0.2),
-#         MinEta          = cms.untracked.vdouble(-99999, -2.5),
-#         MaxEta          = cms.untracked.vdouble(99999, 2.5)
-# )
+
 decayfilter = cms.EDFilter("PythiaDauVFilter",
 	    verbose         = cms.untracked.int32(0),
 	    NumberDaughters = cms.untracked.int32(2),
@@ -155,5 +133,4 @@ decayfilter = cms.EDFilter("PythiaDauVFilter",
 )
 
 
-# ProductionFilterSequence = cms.Sequence(generator*lbfilter*psifilter)
 ProductionFilterSequence = cms.Sequence(generator*lbfilter*decayfilter*psifilter)
